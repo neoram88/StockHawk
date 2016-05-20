@@ -1,13 +1,19 @@
 package com.sam_chordas.android.stockhawk.rest;
 
 import android.content.ContentProviderOperation;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
-import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by sam_chordas on 10/8/15.
@@ -91,5 +97,37 @@ public class Utils {
       e.printStackTrace();
     }
     return builder.build();
+  }
+
+  public static boolean isValidStock(String response){
+
+    Log.v(LOG_TAG+" Response to check: ",response);
+    boolean  isValid =false;
+
+    JSONObject jsonObject = null;
+    try {
+      jsonObject = new JSONObject(response);
+      if (jsonObject != null && jsonObject.length() != 0) {
+        jsonObject = jsonObject.getJSONObject("query");
+        jsonObject = jsonObject.getJSONObject("results").getJSONObject("quote");
+        String ask = jsonObject.getString("Ask");
+        if(!ask.equals("null")){
+          isValid= true;
+        }
+      }
+    }catch (JSONException e){
+      e.printStackTrace();
+    }
+    return isValid;
+
+  }
+
+
+  public static void sendMessage(String message, Context mContext) {
+    Log.d("sender", "Broadcasting message");
+    Intent intent = new Intent("InvokeToast");
+    // You can also include some extra data.
+    intent.putExtra("message",message);
+    LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
   }
 }

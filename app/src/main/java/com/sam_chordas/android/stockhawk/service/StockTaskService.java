@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.RemoteException;
 import android.util.Log;
+
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
@@ -16,6 +17,7 @@ import com.sam_chordas.android.stockhawk.rest.Utils;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -110,9 +112,18 @@ public class StockTaskService extends GcmTaskService{
 
     if (urlStringBuilder != null){
       urlString = urlStringBuilder.toString();
+      Log.v(LOG_TAG+" URL: ",urlString);
       try{
         getResponse = fetchData(urlString);
-        result = GcmNetworkManager.RESULT_SUCCESS;
+        //Check here if it's add for invalid stock?
+        if(params.getTag().equals("add") && !Utils.isValidStock(getResponse)){
+          Utils.sendMessage("Invalid Stock",mContext);
+          result = GcmNetworkManager.RESULT_FAILURE;
+          return result;
+        }else{
+          result = GcmNetworkManager.RESULT_SUCCESS;
+        }
+
         try {
           ContentValues contentValues = new ContentValues();
           // update ISCURRENT to 0 (false) so new data is current
@@ -133,5 +144,6 @@ public class StockTaskService extends GcmTaskService{
 
     return result;
   }
+
 
 }
