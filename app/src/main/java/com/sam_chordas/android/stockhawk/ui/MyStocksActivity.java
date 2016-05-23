@@ -90,7 +90,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             new RecyclerViewItemClickListener.OnItemClickListener() {
               @Override public void onItemClick(View v, int position) {
                 mCursorAdapter.getItemId(position);
-                Utils.sendMessage("You clicked "+position,mContext);
+                //Utils.sendMessage("You clicked "+position,mContext);
                 Intent detailsIntent = new Intent(mContext, DetailsActivity.class);
                 detailsIntent.putExtra("stock",mCursorAdapter.getCursor().getString(1));
                 Log.v("Selected Stock : ",mCursorAdapter.getCursor().getString(1));
