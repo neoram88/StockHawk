@@ -42,10 +42,28 @@
             </intent-filter>
         </service>
         <service android:name="com.sam_chordas.android.stockhawk.service.StockIntentService" />
+
+        <service android:name=".service.StockWidgetService"
+            android:enabled="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
         <provider
             android:authorities="com.sam_chordas.android.stockhawk.data.QuoteProvider"
             android:name="com.sam_chordas.android.stockhawk.data.generated.QuoteProvider"
             android:exported="false"/>
+
+        <receiver android:name=".widget.StockWidget">
+
+            <meta-data
+                android:resource="@xml/stock_widget"
+                android:name="android.appwidget.provider"/>
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+        </receiver>
+
     </application>
 
 </manifest>

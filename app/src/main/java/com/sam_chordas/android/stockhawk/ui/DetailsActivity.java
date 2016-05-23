@@ -84,6 +84,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             }
             dataSet.addPoint(label, price);
         }
+        data.close();
 
         if (dataSet.size() > 1) {
 

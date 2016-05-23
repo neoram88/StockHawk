@@ -14,4 +14,5 @@
   <string name="invalid_stock">This Stock is not listed</string>
   <string name="insufficient_graph_data">There is insufficient data to create a graph</string>
   <string name="add_stock">Add a new Stock</string>
+  <string name="stock_widget">Stock Prices</string>
 </resources>
