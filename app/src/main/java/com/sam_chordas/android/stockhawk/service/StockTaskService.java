@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
+import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.rest.Utils;
@@ -117,7 +118,7 @@ public class StockTaskService extends GcmTaskService{
         getResponse = fetchData(urlString);
         //Check here if it's add for invalid stock?
         if(params.getTag().equals("add") && !Utils.isValidStock(getResponse)){
-          Utils.sendMessage("Invalid Stock",mContext);
+          Utils.sendMessage(mContext.getString(R.string.invalid_stock),mContext);
           result = GcmNetworkManager.RESULT_FAILURE;
           return result;
         }else{
